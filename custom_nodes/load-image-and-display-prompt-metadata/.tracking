@@ -1,0 +1,5 @@
+.github/workflows/publish.yml
+README.md
+__init__.py
+pyproject.toml
+web/js/loadimagex.js

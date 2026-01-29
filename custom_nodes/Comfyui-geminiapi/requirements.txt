@@ -1,0 +1,7 @@
+replicate
+pillow
+numpy
+torch
+google-genai>=1.0.0
+opencv-python
+torchaudio

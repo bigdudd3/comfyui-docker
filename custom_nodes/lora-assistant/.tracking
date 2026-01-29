@@ -1,0 +1,11 @@
+.github/workflows/publish.yml
+.gitignore
+LICENSE
+README.md
+__init__.py
+assets/LoRA_Trigger_Local.png
+assets/install_by_manager.png
+assets/preview_lora_image.png
+js/lora_trigger_local.js
+lora_trigger_local.py
+pyproject.toml

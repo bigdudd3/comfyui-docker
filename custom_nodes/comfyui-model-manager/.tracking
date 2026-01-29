@@ -1,0 +1,12 @@
+LICENSE
+__init__.py
+assets/no-preview.png
+py/config.py
+py/download.py
+py/information.py
+py/manager.py
+py/thread.py
+py/upload.py
+py/utils.py
+pyproject.toml
+requirements.txt

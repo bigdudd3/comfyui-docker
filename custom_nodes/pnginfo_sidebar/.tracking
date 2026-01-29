@@ -1,0 +1,11 @@
+.github/workflows/publish.yml
+CHANGELOG.md
+LICENSE
+README.md
+__init__.py
+pyproject.toml
+web/ImageUploader.js
+web/pnginfo_sidebar.js
+web/read_prompt_base.js
+web/read_prompt_comfy.js
+web/read_prompt_forge.js

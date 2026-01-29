@@ -1,0 +1,105 @@
+import re
+import server
+from aiohttp import web
+import json
+import os
+import folder_paths
+import shutil
+from .sampler_node import SamplerGridTester
+from .dashboard_node import SamplerConfigDashboardViewer
+from .html_generator import get_html_template
+
+# --- API: DELETE SESSION ---
+@server.PromptServer.instance.routes.post("/config_tester/delete_session")
+async def delete_session(request):
+    try:
+        data = await request.json()
+        session_name = data.get("session_name")
+
+        # Sanitize
+        if session_name:
+            session_name = re.sub(r'[^\w\-]', '', session_name)
+        
+        if not session_name or session_name == "default_session":
+             return web.Response(status=400, text="Invalid session name")
+
+        # Path construction
+        base_dir = os.path.join(folder_paths.get_output_directory(), "benchmarks", session_name)
+        
+        if os.path.exists(base_dir):
+            shutil.rmtree(base_dir) # Deletes the folder and images
+            return web.Response(status=200, text="Deleted")
+        else:
+            return web.Response(status=404, text="Session not found")
+
+    except Exception as e:
+        return web.Response(status=500, text=str(e))
+    
+# --- API: SAVE MANIFEST ---
+@server.PromptServer.instance.routes.post("/config_tester/save_manifest")
+async def save_manifest(request):
+    try:
+        data = await request.json()
+        session_name = data.get("session_name")
+        manifest_data = data.get("manifest")
+        
+        # --- sanitize ---
+        if session_name:
+            session_name = re.sub(r'[^\w\-]', '', session_name)
+
+        if not session_name or not manifest_data:
+            return web.Response(status=400, text="Missing session_name or manifest")
+
+        base_dir = os.path.join(folder_paths.get_output_directory(), "benchmarks", session_name)
+        os.makedirs(base_dir, exist_ok=True)
+        manifest_path = os.path.join(base_dir, "manifest.json")
+
+        with open(manifest_path, "w") as f:
+            json.dump(manifest_data, f, indent=4)
+            
+        return web.Response(status=200, text="Saved")
+    except Exception as e:
+        print(f"[ConfigTester] Error saving manifest: {e}")
+        return web.Response(status=500, text=str(e))
+
+# --- API: FETCH SESSION HTML ---
+@server.PromptServer.instance.routes.post("/config_tester/get_session_html")
+async def get_session_html(request):
+    try:
+        data = await request.json()
+        session_name = data.get("session_name")
+        node_id = data.get("node_id", "0") # Fallback ID
+
+        # --- sanitize ---
+        if session_name:
+            session_name = re.sub(r'[^\w\-]', '', session_name)
+            
+        base_dir = os.path.join(folder_paths.get_output_directory(), "benchmarks", session_name)
+        manifest_path = os.path.join(base_dir, "manifest.json")
+
+        if not os.path.exists(manifest_path):
+             return web.Response(status=404, text=f"Session '{session_name}' not found.")
+
+        with open(manifest_path, "r") as f:
+            manifest = json.load(f)
+
+        # Generate HTML on the fly
+        html = get_html_template(session_name, manifest, node_id)
+        return web.Response(status=200, text=html)
+
+    except Exception as e:
+        return web.Response(status=500, text=str(e))
+
+# --- MAPPINGS ---
+NODE_CLASS_MAPPINGS = {
+    # It is often good practice to prefix your internal keys to avoid collisions
+    "UltimateSamplerGrid": SamplerGridTester,
+    "UltimateGridDashboard": SamplerConfigDashboardViewer
+}
+
+NODE_DISPLAY_NAME_MAPPINGS = {
+    "UltimateSamplerGrid": "Ultimate Sampler Grid (Generator)",
+    "UltimateGridDashboard": "Ultimate Grid Dashboard (Viewer)"
+}
+
+WEB_DIRECTORY = "./web"

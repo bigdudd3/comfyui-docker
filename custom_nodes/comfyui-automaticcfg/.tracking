@@ -1,0 +1,65 @@
+README.md
+requirements.txt
+pyproject.toml
+nodes.py
+__init__.py
+nodes_sag_custom.py
+experimental_temperature.py
+presets/Quack expertNegative.json
+presets/SDXL_Analog_photo_helper.json
+presets/Crossed conds customized 1.json
+presets/do_not_delete.json
+presets/experimental_temperature_setting.json
+presets/reinforced_style_fast_version.json
+presets/A subtle touch.json
+presets/Enhanced_details_and_tweaked_attention
+presets/Crossed conds customized 3.json
+presets/The red riding latent.json
+presets/Original automatic CFG (old version).json
+presets/Excellent_attention.json
+presets/reinforced_style_slow_version.json
+presets/SDXL_TOO_MANY_FINGERS.json
+presets/Mute input layer 8 attn1 and attn2 for uncond.json
+presets/Crossed conds customized 2.json
+presets/Mute input layer 8 attn1 for uncond.json
+presets/reinforced_style_normal_version.json
+presets/Kickstart.json
+presets/SDXL_Vector_Art.json
+presets/Mute input layer 8 attn2 for uncond.json
+presets/Potato Attention Guidance.json
+presets/For magic.json
+presets/reinforced_style_slow_version_lighter_effect.json
+presets/Quack expert.json
+presets/SDXL_Photorealistic_helper.json
+presets/Original automatic CFG (new version).json
+presets/everything_turned_off.json
+.github/workflows/publish.yml
+workflows/24steps.png
+workflows/potato attention guidance.png
+workflows/dat_random_gurl.png
+workflows/11728UI_00001_.png
+workflows/attention_modifiers_explainations.png
+workflows/simple SD upscale.png
+workflows/README.md
+workflows/12 steps SDXL AYS Warp drive workflow.png
+workflows/Start_by_this_one.png
+workflows/12steps.png
+workflows/10 steps SD15 AYS Warp drive workflow.png
+workflows/if you need the write text to image node.txt
+workflows/My current go-to settings.png
+workflows/10 steps SDXL AYS Warp drive variation.png
+workflows/I'm just throwing a few here that I find nice/01217UI_00001_.png
+workflows/I'm just throwing a few here that I find nice/laule.png
+workflows/I'm just throwing a few here that I find nice/another bad upscale looking like jpeg.png
+workflows/I'm just throwing a few here that I find nice/intradasting.png
+workflows/I'm just throwing a few here that I find nice/special double pass.png
+workflows/I'm just throwing a few here that I find nice/web.png
+workflows/I'm just throwing a few here that I find nice/niiiiiice.png
+workflows/I'm just throwing a few here that I find nice/00382UI_00001_.png
+workflows/I'm just throwing a few here that I find nice/01207UI_00001_.png
+workflows/I'm just throwing a few here that I find nice/a bad upscale looks like low quality jpeg.png
+grids_example/Enhanced_details_and_tweaked_attention.png
+grids_example/excellent_patch_a.jpg
+grids_example/Iris_Lux_v1051_base_image_vanilla_sampling.png
+grids_example/excellent_patch_b.jpg
+grids_example/presets.jpg
