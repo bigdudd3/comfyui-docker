@@ -1,0 +1,10 @@
+.git
+.gitignore
+.DS_Store
+__pycache__
+*.pyc
+models/
+input/
+output/
+workflows/
+custom_nodes/

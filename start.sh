@@ -34,5 +34,11 @@ ln -sfn /workspace/output /opt/ComfyUI/output
 ln -sfn /workspace/custom_nodes /opt/ComfyUI/custom_nodes
 ln -sfn /workspace/user /opt/ComfyUI/user
 
+# Install custom node requirements once per volume
+if [ -d /opt/ComfyUI/custom_nodes ] && [ ! -f /workspace/.custom_requirements_installed ]; then
+  /opt/ComfyUI/install_custom_requirements.sh || true
+  touch /workspace/.custom_requirements_installed
+fi
+
 # Start ComfyUI
 exec python3 /opt/ComfyUI/main.py --listen 0.0.0.0 --port 8188
