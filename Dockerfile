@@ -28,9 +28,9 @@ RUN chmod +x /opt/ComfyUI/start.sh
 RUN rm -rf /opt/ComfyUI/custom_nodes/ComfyUI-Manager \
     && git clone https://github.com/ltdrdata/ComfyUI-Manager /opt/ComfyUI/custom_nodes/ComfyUI-Manager
 
-# Set ComfyUI-Manager security level to weak (allow installs)
+# Set ComfyUI-Manager security level to weak
 RUN mkdir -p /opt/ComfyUI/user/default/ComfyUI-Manager \
-    && printf "[default]\nsecurity_level = none\n" | tee /opt/ComfyUI/custom_nodes/ComfyUI-Manager/config.ini /opt/ComfyUI/user/default/ComfyUI-Manager/config.ini
+    && printf "[default]\nsecurity_level = weak\n" | tee /opt/ComfyUI/custom_nodes/ComfyUI-Manager/config.ini /opt/ComfyUI/user/default/ComfyUI-Manager/config.ini
 
 RUN pip3 uninstall -y torchao || true
 
