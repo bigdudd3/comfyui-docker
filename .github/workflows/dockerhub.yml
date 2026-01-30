@@ -31,4 +31,6 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: bigdudd3/comfyui:oliver-2026-01-29
+          tags: |
+            bigdudd3/comfyui:oliver-2026-01-29
+            bigdudd3/comfyui:oliver-2026-01-29-nocustom
