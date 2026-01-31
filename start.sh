@@ -4,12 +4,20 @@ set -euo pipefail
 # Persist data on /workspace
 mkdir -p /workspace/models /workspace/input /workspace/output /workspace/custom_nodes /workspace/user
 
-# Symlink to persistent storage
-ln -sfn /workspace/models /opt/ComfyUI/models
-ln -sfn /workspace/input /opt/ComfyUI/input
-ln -sfn /workspace/output /opt/ComfyUI/output
-ln -sfn /workspace/custom_nodes /opt/ComfyUI/custom_nodes
-ln -sfn /workspace/user /opt/ComfyUI/user
+# Symlink to persistent storage (replace dirs with symlinks)
+for d in models input output user; do
+  rm -rf "/opt/ComfyUI/$d"
+  ln -sfn "/workspace/$d" "/opt/ComfyUI/$d"
+done
+
+# Handle custom_nodes carefully (avoid nested /opt/ComfyUI/custom_nodes/custom_nodes)
+if [ ! -L /opt/ComfyUI/custom_nodes ]; then
+  if [ -z "$(ls -A /workspace/custom_nodes 2>/dev/null)" ]; then
+    cp -a /opt/ComfyUI/custom_nodes/. /workspace/custom_nodes/ || true
+  fi
+  rm -rf /opt/ComfyUI/custom_nodes
+  ln -sfn /workspace/custom_nodes /opt/ComfyUI/custom_nodes
+fi
 
 # Optional: auto-update ComfyUI
 if [ "${COMFYUI_AUTO_UPDATE:-0}" = "1" ]; then
