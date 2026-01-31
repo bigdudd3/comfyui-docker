@@ -2,7 +2,13 @@ FROM nvidia/cuda:12.1.1-runtime-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    COMFYUI_MANAGER_SECURITY=weak \
+    COMFYUI_MANAGER_SECURITY_FORCE=0 \
+    ENABLE_JUPYTER=0 \
+    ENABLE_TTYD=0 \
+    COMFYUI_ARGS=""
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 python3-pip python3-venv python3-dev git wget ca-certificates build-essential \
@@ -11,7 +17,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt
-RUN git clone https://github.com/comfyanonymous/ComfyUI.git
+ARG COMFYUI_REF=master
+RUN git clone https://github.com/comfyanonymous/ComfyUI.git \
+    && cd /opt/ComfyUI \
+    && git checkout "$COMFYUI_REF"
 WORKDIR /opt/ComfyUI
 
 # Install PyTorch + requirements (CUDA 12.1)
@@ -24,19 +33,14 @@ COPY install_custom_requirements.sh /opt/ComfyUI/install_custom_requirements.sh
 COPY start.sh /opt/ComfyUI/start.sh
 RUN chmod +x /opt/ComfyUI/start.sh
 
-# Install ComfyUI-Manager properly
-RUN rm -rf /opt/ComfyUI/custom_nodes/ComfyUI-Manager \
-    && git clone https://github.com/ltdrdata/ComfyUI-Manager /opt/ComfyUI/custom_nodes/ComfyUI-Manager
-
-# Set ComfyUI-Manager security level to weak
-RUN mkdir -p /opt/ComfyUI/user/default/ComfyUI-Manager \
-    && printf "[default]\nsecurity_level = weak\n" | tee /opt/ComfyUI/custom_nodes/ComfyUI-Manager/config.ini /opt/ComfyUI/user/default/ComfyUI-Manager/config.ini
-
 RUN pip3 uninstall -y torchao || true
 
-# Default volumes for models and outputs
-VOLUME ["/opt/ComfyUI/models", "/opt/ComfyUI/output", "/opt/ComfyUI/input", "/opt/ComfyUI/custom_nodes"]
+# Default volume for persisted data
+VOLUME ["/workspace"]
 
 EXPOSE 8188 8888 7681
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s \
+  CMD wget -qO- http://127.0.0.1:8188/ || exit 1
 
 CMD ["/opt/ComfyUI/start.sh"]
