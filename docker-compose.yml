@@ -7,11 +7,10 @@ services:
     ports:
       - "8188:8188"
     environment:
-      # Optional
-      # - ENABLE_JUPYTER=1
-      # - ENABLE_TTYD=1
+      - ENABLE_JUPYTER=1
+      - ENABLE_TTYD=1
+      - COMFYUI_MANAGER_SECURITY=weak
       # - COMFYUI_ARGS=--preview-method auto
-      # - COMFYUI_MANAGER_SECURITY=weak
       # - COMFYUI_MANAGER_SECURITY_FORCE=1
       # - COMFYUI_AUTO_UPDATE=1
       # - CUSTOM_NODES_AUTO_UPDATE=1
