@@ -27,7 +27,8 @@ WORKDIR /opt/ComfyUI
 RUN pip3 install --upgrade pip \
     && pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
     && pip3 install -r requirements.txt \
-    && pip3 install jupyterlab
+    && pip3 install jupyterlab \
+    && pip3 install --upgrade "sqlalchemy>=2.0"
 
 COPY install_custom_requirements.sh /opt/ComfyUI/install_custom_requirements.sh
 COPY start.sh /opt/ComfyUI/start.sh
