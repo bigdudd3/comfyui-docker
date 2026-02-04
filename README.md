@@ -29,6 +29,7 @@ Runpod:
 - Set the container image to your pushed image.
 - Expose port **8188**.
 - Mount your network drive to **/workspace**.
+- No custom command/entrypoint needed (the image handles persistence automatically).
 
 ## Optional environment variables
 - `ENABLE_JUPYTER=1` → start JupyterLab on port 8888

@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Ensure persistent ComfyUI root exists
+mkdir -p /workspace/ComfyUI
+
+# If /workspace/ComfyUI is empty, seed it from image source
+if [ -z "$(ls -A /workspace/ComfyUI 2>/dev/null)" ]; then
+  cp -a /opt/ComfyUI-src/. /workspace/ComfyUI/ || true
+fi
+
+# Point /opt/ComfyUI at persistent location (avoid pre-creating /opt/ComfyUI)
+rm -rf /opt/ComfyUI
+ln -sfn /workspace/ComfyUI /opt/ComfyUI
+
 # Persist data on /workspace
 mkdir -p /workspace/models /workspace/input /workspace/output /workspace/custom_nodes /workspace/user
 
