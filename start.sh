@@ -4,8 +4,8 @@ set -euo pipefail
 # Ensure persistent ComfyUI root exists
 mkdir -p /workspace/ComfyUI
 
-# If /workspace/ComfyUI is empty, seed it from image source
-if [ -z "$(ls -A /workspace/ComfyUI 2>/dev/null)" ]; then
+# If /workspace/ComfyUI is empty or missing main.py, seed it from image source
+if [ -z "$(ls -A /workspace/ComfyUI 2>/dev/null)" ] || [ ! -f /workspace/ComfyUI/main.py ]; then
   cp -a /opt/ComfyUI-src/. /workspace/ComfyUI/ || true
 fi
 
