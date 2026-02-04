@@ -32,7 +32,8 @@ Runpod:
 - No custom command/entrypoint needed (the image handles persistence automatically).
 
 ## Optional environment variables
-- `ENABLE_JUPYTER=1` → start JupyterLab on port 8888
+- `ENABLE_JUPYTER=1` → start JupyterLab on port 8888 (root: /workspace, base_url: /lab)
+- `JUPYTER_ROOT=/workspace` → override Jupyter root directory
 - `ENABLE_TTYD=1` → start ttyd web terminal on port 7681
 - `COMFYUI_ARGS="--preview-method auto"` → extra CLI args
 - `COMFYUI_AUTO_UPDATE=1` → git pull ComfyUI on start

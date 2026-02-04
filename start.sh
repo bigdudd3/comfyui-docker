@@ -72,7 +72,18 @@ fi
 
 # Start JupyterLab if enabled
 if [ "${ENABLE_JUPYTER:-0}" = "1" ]; then
-  jupyter lab --ip=0.0.0.0 --port=8888 --allow-root --no-browser &
+  JUPYTER_ROOT="${JUPYTER_ROOT:-/workspace}"
+  jupyter lab \
+    --ip=0.0.0.0 \
+    --port=8888 \
+    --allow-root \
+    --no-browser \
+    --ServerApp.root_dir="$JUPYTER_ROOT" \
+    --ServerApp.base_url=/lab \
+    --ServerApp.token='' \
+    --ServerApp.password='' \
+    --ServerApp.disable_check_xsrf=True \
+    --ServerApp.allow_origin='*' &
 fi
 
 # Start ComfyUI
